@@ -11,6 +11,7 @@
     "speaker": "神秘男子",
     "content": "你終於醒了，這裡是不受時間約束的荒野。",
     "background": "https://picsum.photos/id/10/1200/800",
+    "bgm": "/sounds/gentle-rain-07-437321.mp3",
     "currentIndex": 1
   }
 ]

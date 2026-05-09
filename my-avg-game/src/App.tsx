@@ -1,11 +1,25 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useGameStore } from './store/useGameStore';
 import type { ChoiceOption } from './types/game'; // 使用 type-only import
 
 const App: React.FC = () => {
-  const { getCurrentScene, nextStep, makeChoice } = useGameStore();
+  const { getCurrentScene, nextStep, makeChoice, playBgm, currentIndex } = useGameStore();
   const scene = getCurrentScene();
-  const { currentIndex } = useGameStore();
+
+  console.log("App 重新渲染了，目前 Index:", currentIndex);
+
+  useEffect(() => {
+    console.log("useEffect 啟動了");  
+    const currentScene = getCurrentScene(); // 不要先轉型，先拿原始資料
+  
+    console.log("當前場景物件:", currentScene); // 檢查這行有沒有印出東西
+
+    if (currentScene && 'bgm' in currentScene && currentScene.bgm) {
+      console.log("偵測到音樂標籤:", currentScene.bgm);
+      playBgm(currentScene.bgm as string);
+    }
+  }, [currentIndex, playBgm, getCurrentScene]); 
+// 💡 注意：這裡改為監聽 currentIndex，只要索引一變，就重新檢查一次音樂
 
   if (!scene) {
     return (
@@ -42,7 +56,6 @@ const App: React.FC = () => {
       {/* 背景層：使用 Type Guard */}
       {renderBackground()}
       
-
       {/* 2. 對話層 (只有 text 類型才顯示) */}
       {scene.type === 'text' && (
         <div className="absolute bottom-10 w-full px-4 z-10">
