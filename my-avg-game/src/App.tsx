@@ -5,6 +5,7 @@ import type { ChoiceOption } from './types/game'; // 使用 type-only import
 const App: React.FC = () => {
   const { getCurrentScene, nextStep, makeChoice } = useGameStore();
   const scene = getCurrentScene();
+  const { currentIndex } = useGameStore();
 
   if (!scene) {
     return (
@@ -13,31 +14,41 @@ const App: React.FC = () => {
       </div>
     );
   }
+  // 判斷背景樣式
+  const renderBackground = () => {
+    if (!scene.background) return <div className="absolute inset-0 bg-black" />;
+    
+    if (scene.background.startsWith('#')) {
+      return <div className="absolute inset-0" style={{ backgroundColor: scene.background }} />;
+    }
+    
+    return (
+      <img 
+        src={scene.background} 
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700" 
+        alt="background"
+      />
+    );
+  };
 
   return (
-    <div 
-      className="relative w-full h-screen bg-black overflow-hidden select-none" 
-      onClick={nextStep}
-    >
+  <div 
+    className="relative w-full h-screen overflow-hidden cursor-pointer select-none bg-black" 
+    onClick={() => {
+      console.log("畫面被點擊了，當前索引：", currentIndex); // 除錯用
+      nextStep();
+    }}
+  >
       {/* 背景層：使用 Type Guard */}
-      {scene.type === 'bg' && (
-        <img 
-          src={scene.content} 
-          alt={scene.description || "background"} 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      )}
+      {renderBackground()}
+      
 
-      {/* 對話層 */}
+      {/* 2. 對話層 (只有 text 類型才顯示) */}
       {scene.type === 'text' && (
-        <div className="absolute bottom-10 w-full px-4">
-          <div className="max-w-4xl mx-auto bg-black/70 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-2xl">
-            <p className="text-yellow-400 font-bold text-xl mb-3 tracking-wider">
-              {scene.speaker}
-            </p>
-            <p className="text-white text-2xl leading-relaxed">
-              {scene.content}
-            </p>
+        <div className="absolute bottom-10 w-full px-4 z-10">
+          <div className="max-w-4xl mx-auto bg-black/60 backdrop-blur-md border border-white/10 p-8 rounded-2xl">
+            <p className="text-yellow-400 font-bold text-xl mb-2">{scene.speaker}</p>
+            <p className="text-white text-2xl">{scene.content}</p>
           </div>
         </div>
       )}

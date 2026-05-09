@@ -1,10 +1,16 @@
 [
-  { "type": "bg", "content": "https://picsum.photos/id/10/1200/800", "description": "森林" },
-  { "type": "text", "speaker": "神秘男子", "content": "你終於醒了，這裡是不受時間約束的荒野。" },
-  { "type": "text", "speaker": "我", "content": "（頭好痛... 我是怎麼來到這裡的？）" },
-  { "type": "choice", "content": "你要怎麼做？", "options": [
-      { "text": "詢問對方的身分", "nextIndex": 4 },
-      { "text": "試圖站起來", "nextIndex": 5 }
-    ]
+  {
+    "type": "text",
+    "speaker": "系統",
+    "content": "遊戲開始",
+    "background": "#000000",
+    "currentIndex": 0
+  },
+  {
+    "type": "text",
+    "speaker": "神秘男子",
+    "content": "你終於醒了，這裡是不受時間約束的荒野。",
+    "background": "https://picsum.photos/id/10/1200/800",
+    "currentIndex": 1
   }
 ]

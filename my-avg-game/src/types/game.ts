@@ -11,6 +11,7 @@ export interface BgScene extends BaseScene {
   type: 'bg';
   content: string; // 圖片 URL
   description?: string;
+  background?: string; // 新增可選屬性
 }
 
 // 對話場景
@@ -18,6 +19,7 @@ export interface TextScene extends BaseScene {
   type: 'text';
   speaker: string;
   content: string;
+  background?: string; // 新增可選屬性
 }
 
 // 分歧選項
@@ -31,6 +33,7 @@ export interface ChoiceScene extends BaseScene {
   type: 'choice';
   content: string; // 選擇題的題目
   options: ChoiceOption[];
+  background?: string; // 新增可選屬性
 }
 
 // 聯合型別：代表劇本中的任一項
